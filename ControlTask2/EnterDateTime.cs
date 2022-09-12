@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -9,8 +10,8 @@ namespace ControlTask2
 {
     internal class EnterDateTime
     {
-        private DateTime EnteredDateTime;
-        private DateTime DateTimeOfCreation;
+        public DateTime EnteredDateTime { get; }
+        public DateTime DateTimeOfCreation { get; }
         private bool isTimeInFuture;
         private string representationFormat = "D";
         private int theSumOfTheNumbersInARow;
@@ -41,28 +42,6 @@ namespace ControlTask2
             }
         }
 
-        public void OutputOfTheFormatSettingsMenu()
-        {
-            DateTime exampleDateTime = DateTimeOfCreation;
-            Console.WriteLine("Choose a representation format DateTime:");
-            Console.WriteLine("D: {0}", exampleDateTime.ToString("D"));
-            Console.WriteLine("d; {0}", exampleDateTime.ToString("d"));
-            Console.WriteLine("F: {0}", exampleDateTime.ToString("F"));
-            Console.WriteLine("f: {0}", exampleDateTime.ToString("f"));
-            Console.WriteLine("G; {0}", exampleDateTime.ToString("G"));
-            Console.WriteLine("g: {0}", exampleDateTime.ToString("g"));
-            Console.WriteLine("M: {0}", exampleDateTime.ToString("M"));
-            Console.WriteLine("O: {0}", exampleDateTime.ToString("O"));
-            Console.WriteLine("o: {0}", exampleDateTime.ToString("o"));
-            Console.WriteLine("R; {0}", exampleDateTime.ToString("R"));
-            Console.WriteLine("s: {0}", exampleDateTime.ToString("s"));
-            Console.WriteLine("T: {0}", exampleDateTime.ToString("T"));
-            Console.WriteLine("t: {0}", exampleDateTime.ToString("t"));
-            Console.WriteLine("U: {0}", exampleDateTime.ToString("U"));
-            Console.WriteLine("u: {0}", exampleDateTime.ToString("u"));
-            Console.WriteLine("Y: {0}", exampleDateTime.ToString("Y"));
-        }
-
         public string RepresentationFormat
         {
             get
@@ -71,7 +50,9 @@ namespace ControlTask2
             }
             set
             {
-                representationFormat = value;
+                string pattern = @"[D,d,F,f,G,g,M,O,R,s,T,t,U,u,Y]";
+                if (Regex.IsMatch(value, pattern)) representationFormat = value;
+                else representationFormat = "D";
             }
         }
 
@@ -79,8 +60,7 @@ namespace ControlTask2
         {
             get
             {
-                int count = 0;
-                foreach (var i in EnteredDateTime.ToString(representationFormat)) if (char.IsDigit(i)) count++;
+                foreach (var i in EnteredDateTime.ToString(representationFormat)) if (char.IsDigit(i)) theSumOfTheNumbersInARow++;
                 return theSumOfTheNumbersInARow;
             }
         }

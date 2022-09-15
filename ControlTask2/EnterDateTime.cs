@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+﻿using System.Text.RegularExpressions;
 
 namespace ControlTask2
 {
@@ -12,9 +6,9 @@ namespace ControlTask2
     {
         public DateTime EnteredDateTime { get; }
         public DateTime DateTimeOfCreation { get; }
-        private bool isTimeInFuture;
-        private string representationFormat = "D";
-        private int theSumOfTheNumbersInARow;
+        private bool _isTimeInFuture;
+        private string? _representationFormat = "D";
+        private int _sumOfNumbersInRow;
 
         public EnterDateTime()
         {
@@ -22,9 +16,9 @@ namespace ControlTask2
             DateTimeOfCreation = DateTime.Now;
         }
 
-        public EnterDateTime(DateTime EnteredDateTime)
+        public EnterDateTime(DateTime enteredDateTime)
         {
-            this.EnteredDateTime = EnteredDateTime;
+            this.EnteredDateTime = enteredDateTime;
             DateTimeOfCreation = DateTime.Now;
         }
 
@@ -32,44 +26,47 @@ namespace ControlTask2
         {
             get
             {
-                int comparisonDateTime = DateTime.Compare(EnteredDateTime, DateTimeOfCreation);
-                if (comparisonDateTime <= 0)
-                {
-                    isTimeInFuture = false;
-                }
-                else isTimeInFuture = true;
-                return isTimeInFuture;
+                var comparisonDateTime = DateTime.Compare(EnteredDateTime, DateTimeOfCreation);
+                _isTimeInFuture = comparisonDateTime > 0;
+
+                return _isTimeInFuture;
             }
         }
 
-        public string RepresentationFormat
+        public string? RepresentationFormat
         {
             get
             {
-                return representationFormat;
+                return _representationFormat;
             }
             set
             {
-                string pattern = @"[D,d,F,f,G,g,M,O,R,s,T,t,U,u,Y]";
-                if (Regex.IsMatch(value, pattern)) representationFormat = value;
-                else representationFormat = "D";
+                const string pattern = @"[D,d,F,f,G,g,M,O,R,s,T,t,U,u,Y]";
+                _representationFormat = Regex.IsMatch(value, pattern) ? value : "D";
             }
         }
 
-        public int TheSumOfTheNumbersInARow
+        public int SumOfNumbersInRow
         {
             get
             {
-                foreach (var i in EnteredDateTime.ToString(representationFormat)) if (char.IsDigit(i)) theSumOfTheNumbersInARow++;
-                return theSumOfTheNumbersInARow;
+                dynamic sum = 0;
+                foreach (var i in EnteredDateTime.ToString(_representationFormat))
+                {
+                    if (char.IsDigit(i))
+                    {
+                        sum += (i - '0');
+                    }
+                }
+
+                _sumOfNumbersInRow = sum;
+                return _sumOfNumbersInRow;
             }
         }
 
         public bool Compare(EnterDateTime anotherInstance)
         {
-            if (anotherInstance.TheSumOfTheNumbersInARow < TheSumOfTheNumbersInARow)
-                return true;
-            else return false;
+            return anotherInstance.SumOfNumbersInRow < SumOfNumbersInRow;
         }
     }
 }

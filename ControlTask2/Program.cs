@@ -15,19 +15,7 @@ internal class Program
         secondEnterDateTime.RepresentationFormat = Console.ReadLine();
         Console.Clear();
 
-        Console.WriteLine(firstEnterDateTime.EnteredDateTime.ToString(firstEnterDateTime.RepresentationFormat));
-        Console.WriteLine(secondEnterDateTime.EnteredDateTime.ToString(secondEnterDateTime.RepresentationFormat));
-        Console.WriteLine();
-
-        Console.WriteLine($"Is firstDateTime in future? {firstEnterDateTime.IsTimeInFuture}");
-        Console.WriteLine($"Is secondEnterDateTime in future? {secondEnterDateTime.IsTimeInFuture}");
-        Console.WriteLine();
-
-        Console.WriteLine($"The sum of the digits in the firstEnterDateTime with the currently selected format: {firstEnterDateTime.SumOfNumbersInRow}");
-        Console.WriteLine($"The sum of the digits in the secondEnterDateTime with the currently selected format: {secondEnterDateTime.SumOfNumbersInRow}");
-        Console.WriteLine();
-
-        Console.WriteLine($"The sum of the digits of the firstEnterDateTime is greater than the sum of the secondEnterDateTime {firstEnterDateTime.Compare(secondEnterDateTime)}");
+        PrintResults(firstEnterDateTime, secondEnterDateTime);
     }
 
     private static void OutputOfFormatSettingsMenu(EnterDateTime exampleEnterDateTime)
@@ -49,5 +37,22 @@ internal class Program
         Console.WriteLine("u: {0:u}", exampleDateTime);
         Console.WriteLine("Y: {0:Y}", exampleDateTime);
         Console.Write($"Choose a representation format DateTime for {exampleDateTime}: ");
+    }
+
+    private static void PrintResults(EnterDateTime firstEnterDateTime, EnterDateTime secondEnterDateTime)
+    {
+        Console.WriteLine(firstEnterDateTime.EnteredDateTime.ToString(firstEnterDateTime.RepresentationFormat));
+        Console.WriteLine(secondEnterDateTime.EnteredDateTime.ToString(secondEnterDateTime.RepresentationFormat));
+        Console.WriteLine();
+
+        Console.WriteLine($"Is firstDateTime in future? {firstEnterDateTime.IsTimeInFuture}");
+        Console.WriteLine($"Is secondEnterDateTime in future? {secondEnterDateTime.IsTimeInFuture}");
+        Console.WriteLine();
+
+        Console.WriteLine($"The sum of the digits in the firstEnterDateTime with the currently selected format: {firstEnterDateTime.SumOfNumbersInRow}");
+        Console.WriteLine($"The sum of the digits in the secondEnterDateTime with the currently selected format: {secondEnterDateTime.SumOfNumbersInRow}");
+        Console.WriteLine();
+
+        Console.WriteLine($"The sum of the digits of the firstEnterDateTime is greater than the sum of the secondEnterDateTime {firstEnterDateTime.Compare(secondEnterDateTime)}");
     }
 }
